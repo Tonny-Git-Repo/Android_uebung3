@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="2dp"
+    tools:context=".RecordsActivity">
+
+    <TextView
+        android:id="@+id/modulNumLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        android:labelFor="@+id/moduleNum"
+        android:padding="14dp"
+        android:paddingStart="5dp"
+        android:textColor="@color/fontColor"
+        android:paddingEnd="5dp"
+        android:text="@string/moduleNum"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/moduleNum"
+        android:layout_below="@+id/modulNumLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textNoSuggestions"
+        android:hint="@string/moduleNum"
+        android:text=""
+        android:textColor="@color/inputColor"
+        android:maxLength="10"
+        android:minHeight="44dp"
+        android:textSize="16sp"
+        />
+
+    <TextView
+        android:id="@+id/modulNameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/moduleNum"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        android:labelFor="@+id/moduleNummer"
+        android:padding="14dp"
+        android:paddingStart="5dp"
+        android:textColor="@color/fontColor"
+        android:paddingEnd="5dp"
+        android:text="@string/module_name"
+        android:textSize="16sp" />
+
+    <AutoCompleteTextView
+        android:id="@+id/moduleName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/modulNameLabel"
+        android:completionThreshold="2"
+        android:hint="@string/module_name"
+        android:inputType="textNoSuggestions"
+        android:maxLength="50"
+        android:minHeight="44dp"
+        android:textSize="16sp"
+        />
+
+    <TextView
+        android:id="@+id/semesterLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/moduleName"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:textColor="@color/fontColor"
+        android:layout_marginBottom="1dp"
+        android:padding="14dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:text="@string/semester"
+        android:textSize="16sp" />
+
+    <CheckBox
+        android:id="@+id/isSummerTerm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/semesterLabel"
+        android:text="@string/is_summer_semester" />
+
+    <Spinner
+        android:id="@+id/year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/isSummerTerm"
+        android:layout_marginLeft="145dp"
+        android:entries="@array/years"
+        android:minHeight="44dp"
+        tools:ignore= "SpeakableTextPresentCheck" />
+
+    <TextView
+        android:id="@+id/crpLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/isSummerTerm"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        android:labelFor="@+id/moduleNummer"
+        android:padding="14dp"
+        android:paddingStart="5dp"
+        android:textColor="@color/fontColor"
+        android:paddingEnd="5dp"
+        android:text="@string/crp"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/crp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textNoSuggestions"
+        android:layout_below="@+id/crpLabel"
+        android:textColor="@color/inputColor"
+        android:maxLength="20"
+        android:minHeight="44dp"
+        android:textSize="16sp"
+        />
+
+    <TextView
+        android:id="@+id/markLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/crp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        android:labelFor="@+id/mark"
+        android:padding="14dp"
+        android:paddingStart="5dp"
+        android:textColor="@color/fontColor"
+        android:paddingEnd="5dp"
+        android:text="@string/note_in_prozent"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/mark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textNoSuggestions"
+        android:layout_below="@+id/markLabel"
+        android:textColor="@color/inputColor"
+        android:maxLength="10"
+        android:minHeight="44dp"
+        />
+
+    <CheckBox
+        android:id="@+id/isHalfWeighted"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mark"
+        android:text="@string/is_half_weighted" />
+
+    <Button
+        android:id="@+id/save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/isHalfWeighted"
+        android:layout_marginTop="8dp"
+        android:onClick="onSave"
+        android:text="@string/save" />
+
+
+</RelativeLayout>

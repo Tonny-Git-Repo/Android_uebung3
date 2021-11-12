@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Leistungen</string>
+    <string name="add">Leistung anlegen</string>
+    <string name="stats">Statistik</string>
+    <string name="no_records">Keine Leistungen</string>
+    <string name="moduleNum">Modulnummer</string>
+    <string name="module_name">Modulname</string>
+    <string name="semester">Semester</string>
+    <string name="is_summer_semester">Sommersemester</string>
+    <string name="crp">Credit Points</string>
+    <string name="note_in_prozent">Note in %</string>
+    <string name="is_half_weighted">50% Gewichtung</string>
+    <string name="save">SPEICHERN</string>
+    <string name="module_num_not_empty">ModulNummer darf nicht leer sein!</string>
+    <string name="modul_name_not_empty">Modulname darf nicht leer sein!</string>
+    <string name="credit_point_not_empty">Kreditpunkte durfen nicht leer sein oder größer 15!</string>
+    <string name="close">Schließen</string>
+    <string name="email_senden">Senden</string>
+    <string name="leistungen_senden">Leistungen als email senden</string>
+    <string name="loeschen">Löschen</string>
+</resources>
