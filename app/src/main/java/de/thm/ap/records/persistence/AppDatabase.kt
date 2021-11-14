@@ -7,6 +7,7 @@ import androidx.room.RoomDatabase
 import de.thm.ap.records.model.Record
 
 @Database(entities = [Record::class], version = 1)
+
 abstract class AppDatabase: RoomDatabase() {
 
     abstract fun recordDao(): RecordDAO
@@ -25,4 +26,5 @@ abstract class AppDatabase: RoomDatabase() {
             }
         }
     }
+
 }

@@ -10,12 +10,14 @@ import android.R.layout.simple_dropdown_item_1line
 import android.R.layout.simple_spinner_dropdown_item
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import de.thm.ap.records.persistence.AppDatabase
 import de.thm.ap.records.persistence.RecordDAO
 import kotlinx.coroutines.Dispatchers
 import java.lang.Exception
 import java.util.concurrent.Executors
 import androidx.lifecycle.lifecycleScope
+import de.thm.ap.records.model.RecordsViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -26,14 +28,19 @@ class RecordFormActivity : AppCompatActivity() {
 
     private lateinit var recordDAO: RecordDAO
     private val executer = Executors.newSingleThreadExecutor()
+    private lateinit var recordViewModel : RecordsViewModel
     var record = Record("", "", 2015, false, false, 0 , 0)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        recordDAO = AppDatabase.getDb(this).recordDao()
+        
         binding = ActivityRecordFormBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        recordViewModel = ViewModelProvider(this).get(RecordsViewModel::class.java)
 
         // configure suggestions in auto complete text view
 
@@ -139,7 +146,8 @@ class RecordFormActivity : AppCompatActivity() {
             if (it.id == null) {
                 //Save a new created record
                 lifecycleScope.launch(Dispatchers.IO) {
-                    recordDAO.persist(it)
+                    //recordDAO.persist(it)
+                    recordViewModel.addRecord(it)
                 }
             } else {
                 //update a record

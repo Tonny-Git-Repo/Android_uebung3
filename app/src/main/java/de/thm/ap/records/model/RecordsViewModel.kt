@@ -1,17 +1,16 @@
 package de.thm.ap.records.model
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import de.thm.ap.records.RecordsActivity
 import de.thm.ap.records.persistence.AppDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlin.properties.ReadOnlyProperty
 
 class RecordsViewModel(app: Application) : AndroidViewModel(app) {
 
-    private val recordDao = AppDatabase.getDb(app).recordDao()
+    val recordDao = AppDatabase.getDb(app).recordDao()
 
     val records: LiveData<List<Record>> = recordDao.findAllSync()
 
@@ -20,8 +19,10 @@ class RecordsViewModel(app: Application) : AndroidViewModel(app) {
         Stats(it)
     }
 
-//    fun getValue():LiveData<List<Record>>{
-//        return records
-//    }
+    fun addRecord(record: Record){
+        viewModelScope.launch(Dispatchers.IO){
+            recordDao.persist(record)
+        }
+    }
 
 }

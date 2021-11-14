@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.ViewModel
 import de.thm.ap.records.databinding.ActivityRecordsBinding
 import de.thm.ap.records.model.Record
 import de.thm.ap.records.model.RecordsViewModel
@@ -19,6 +18,10 @@ import java.util.*
 import java.util.concurrent.Executors
 import kotlin.collections.ArrayList
 import androidx.activity.viewModels
+import androidx.lifecycle.*
+import androidx.room.Room
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class RecordsActivity : AppCompatActivity(){
 
@@ -30,22 +33,37 @@ class RecordsActivity : AppCompatActivity(){
     private val viewModel: RecordsViewModel by viewModels()
     private val executer = Executors.newSingleThreadExecutor()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val appDb = Room.databaseBuilder(this, AppDatabase::class.java, "app_database").build()
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            records = appDb.recordDao().findAll()
+        }
+
         binding = ActivityRecordsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.recordListView.emptyView = binding.recordListEmptyView
-        recordDAO = AppDatabase.getDb(this).recordDao()
+       // recordDAO = AppDatabase.getDb(this).recordDao()
 
-        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_activated_1, records)
-
+        //records = recordDAO.findAllSync()
+        adapter = RecordAdapter(this, records)
+//
         binding.recordListView.adapter = adapter
 
-        viewModel.records.observe(this) {
-            adapter.clear()
-            adapter.addAll(it)
-        }
+//        viewModel.records.observe(, androidx.lifecycle.Observer {
+//
+//        })
+
+
+
+
+//        viewModel.records.observe(this) {
+//            adapter.clear()
+//            adapter.addAll(it)
+//        }
 
     }
 

@@ -21,6 +21,7 @@ interface RecordDAO {
     @Delete
     fun deleteAll(records: List<Record>)
 
+
     @Query("SELECT * FROM record")
     fun findAll(): List<Record>
 
@@ -28,6 +29,6 @@ interface RecordDAO {
     fun findAllSync(): LiveData<List<Record>>
 
     @Query("SELECT * FROM record WHERE id = :id")
-    fun findByIdSync(id: Int): LiveData<Record?>
+    fun findByIdSync(id: Int): List<Record?>
 
 }
