@@ -56,40 +56,25 @@ class RecordFormActivity : AppCompatActivity() {
 
 
         //Check if it is a record to Update and Set the input Values of the formulary for a record to update
-        if (intent.hasExtra("id")) {
+        if (intent.hasExtra("idRecordToUpdate")) {
             val recordId = intent.getIntExtra("idRecordToUpdate", -1)
+            record.id = recordId
             lifecycleScope.launch(Dispatchers.IO) {
                 recordDAO.findByIdSync(recordId)?.let {
                     withContext(Dispatchers.Main) {
-//                        binding.moduleNum.setText(it.moduleNum)
-//                        binding.moduleName.setText(record.moduleName)
-//                        binding.isHalfWeighted.isChecked = record.isHalfWeighted == true
-//                        binding.isSummerTerm.isChecked = record.isSummerTerm == true
-//                        binding.crp.setText(record.crp.toString())
-//                        binding.mark.setText(record.mark.toString())
+                        binding.moduleNum.setText(it.moduleNum)
+                        binding.moduleName.setText(it.moduleName)
+                        binding.isHalfWeighted.isChecked = it.isHalfWeighted == true
+                        binding.isSummerTerm.isChecked = it.isSummerTerm == true
+                        binding.crp.setText(it.crp.toString())
+                        binding.mark.setText(it.mark.toString())
 
                         binding.save.text = "Update"
                     }
                 }
+
             }
         }
-
-//        if(record.id != null){
-//            var record = AppDatabase.getDb(this).recordDao().findByIdSync(record.id!!)
-//            binding.moduleNum.setText(record?.moduleNum)
-//            binding.moduleName.setText(record?.moduleName)
-//            binding.isHalfWeighted.isChecked = record?.isHalfWeighted == true
-//            binding.isSummerTerm.isChecked = record?.isSummerTerm == true
-//            if (record != null) {
-//                binding.crp.setText(record.crp.toString())
-//                binding.mark.setText(record.mark.toString())
-//            }
-
-            //Update the text of the save Button to Update for records to update
-//            binding.save.text = "Update"
-//        }
-
-
     }
 
     fun onSave(view: View) {
@@ -146,8 +131,8 @@ class RecordFormActivity : AppCompatActivity() {
             if (it.id == null) {
                 //Save a new created record
                 lifecycleScope.launch(Dispatchers.IO) {
-                    //recordDAO.persist(it)
-                    recordViewModel.addRecord(it)
+                    recordDAO.persist(it)
+                    // recordViewModel.addRecord(it)
                 }
             } else {
                 //update a record

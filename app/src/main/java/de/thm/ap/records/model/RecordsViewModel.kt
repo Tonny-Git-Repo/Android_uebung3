@@ -19,10 +19,5 @@ class RecordsViewModel(app: Application) : AndroidViewModel(app) {
         Stats(it)
     }
 
-    fun addRecord(record: Record){
-        viewModelScope.launch(Dispatchers.IO){
-            recordDao.persist(record)
-        }
-    }
 
 }

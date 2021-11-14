@@ -29,6 +29,6 @@ interface RecordDAO {
     fun findAllSync(): LiveData<List<Record>>
 
     @Query("SELECT * FROM record WHERE id = :id")
-    fun findByIdSync(id: Int): List<Record?>
+    fun findByIdSync(id: Int): Record?
 
 }

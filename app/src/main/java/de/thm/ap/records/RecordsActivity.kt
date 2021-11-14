@@ -46,24 +46,15 @@ class RecordsActivity : AppCompatActivity(){
         setContentView(binding.root)
 
         binding.recordListView.emptyView = binding.recordListEmptyView
-       // recordDAO = AppDatabase.getDb(this).recordDao()
 
-        //records = recordDAO.findAllSync()
         adapter = RecordAdapter(this, records)
-//
+
         binding.recordListView.adapter = adapter
 
-//        viewModel.records.observe(, androidx.lifecycle.Observer {
-//
-//        })
-
-
-
-
-//        viewModel.records.observe(this) {
-//            adapter.clear()
-//            adapter.addAll(it)
-//        }
+        viewModel.records.observe(this) {
+            adapter.clear()
+            adapter.addAll(it)
+        }
 
     }
 
@@ -117,13 +108,12 @@ class RecordsActivity : AppCompatActivity(){
                         AlertDialog.Builder(this@RecordsActivity).apply{
                             setMessage("Sollen die Leistungen wircklich gelöscht werden?")
                             setPositiveButton("löschen"){ _, _ ->
-                                checkedRecordsList.forEach{executer.submit{ recordDAO.delete(it) }
-                                }
-                                // RecordDAO.get(this@RecordsActivity).delete(it)
-                               // checkedRecordsList.forEach { adapter.remove(it) }
+                                checkedRecordsList.forEach{   executer.submit{ recordDAO.delete(it) } }
+                                checkedRecordsList.forEach { adapter.remove(it) }
                                 viewModel.records.observe(this@RecordsActivity) {
                                     adapter.clear()
                                     adapter.addAll(it)
+                                    Toast.makeText(this@RecordsActivity, "deleted", Toast.LENGTH_LONG).show()
                                 }
                                 checkedRecordsList.clear()
                             }
