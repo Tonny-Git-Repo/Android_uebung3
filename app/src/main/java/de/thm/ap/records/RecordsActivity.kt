@@ -41,6 +41,7 @@ class RecordsActivity : AppCompatActivity(){
         lifecycleScope.launch(Dispatchers.IO) {
             records = appDb.recordDao().findAll()
         }
+        recordDAO = AppDatabase.getDb(this).recordDao()
 
         binding = ActivityRecordsBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -51,10 +52,10 @@ class RecordsActivity : AppCompatActivity(){
 
         binding.recordListView.adapter = adapter
 
-        viewModel.records.observe(this) {
+        viewModel.records.observe(this, {
             adapter.clear()
             adapter.addAll(it)
-        }
+        })
 
     }
 
@@ -108,12 +109,23 @@ class RecordsActivity : AppCompatActivity(){
                         AlertDialog.Builder(this@RecordsActivity).apply{
                             setMessage("Sollen die Leistungen wircklich gelöscht werden?")
                             setPositiveButton("löschen"){ _, _ ->
-                                checkedRecordsList.forEach{   executer.submit{ recordDAO.delete(it) } }
-                                checkedRecordsList.forEach { adapter.remove(it) }
+                                checkedRecordsList.forEach{
+                                    lifecycleScope.launch(Dispatchers.IO) {
+                                        if(checkedRecordsList.size > 0){
+                                            recordDAO.delete(it)
+                                        }
+                                    }
+                                }
+                                checkedRecordsList.forEach {
+                                    lifecycleScope.launch(Dispatchers.IO) {
+                                        if (!adapter.isEmpty){
+                                            adapter.remove(it)
+                                        }
+                                    }
+                                }
                                 viewModel.records.observe(this@RecordsActivity) {
                                     adapter.clear()
                                     adapter.addAll(it)
-                                    Toast.makeText(this@RecordsActivity, "deleted", Toast.LENGTH_LONG).show()
                                 }
                                 checkedRecordsList.clear()
                             }
@@ -163,24 +175,23 @@ class RecordsActivity : AppCompatActivity(){
         return when (item.itemId) {
 
             R.id.action_add -> {
+
                 val i = Intent(this, RecordFormActivity::class.java)
                 startActivity(i)
                 true
             }
 
             R.id.action_stats -> {
-                var listRecs = executer.submit{ recordDAO.findAllSync() }
 
-                //var stats = Stats(listRecs)
-               // stats.setDateForSats()
-                var alertDia = AlertDialog.Builder(this)
-                .setTitle(R.string.stats)
-                //.setMessage("${Stats(listRecs)}")
-                .setNeutralButton(R.string.close, null)
-                .show()
+                viewModel.statistic.observe(this, {
+                    var alertDia = AlertDialog.Builder(this)
+                        .setTitle(R.string.stats)
+                        .setMessage(it.toString())
+                        .setNeutralButton(R.string.close, null)
+                        .show()
 
-                alertDia.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(getColor(R.color.dialogCloseColor))
-
+                    alertDia.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(getColor(R.color.dialogCloseColor))
+                })
                 true
             }
             else -> super.onOptionsItemSelected(item)

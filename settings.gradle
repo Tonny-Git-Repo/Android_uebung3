@@ -8,3 +8,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Records"
 include ':app'
+include ':app:testcontentprovider'

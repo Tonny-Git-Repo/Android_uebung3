@@ -1,10 +1,9 @@
 package de.thm.ap.records.model
 
-import android.util.Log
-import android.widget.Toast
-import de.thm.ap.records.RecordFormActivity
+import androidx.room.Entity
 
 
+@Entity
 class Stats(var recordsStat: List<Record>) {
 
     var sumCrp = setDateForSats()
@@ -34,13 +33,6 @@ class Stats(var recordsStat: List<Record>) {
         var sum = 0
         var avg = 0
         var crp = 0
-//        recordsStat.let { it ->
-//            it.forEach { sum += if (it.isHalfWeighted) ((it.mark * it.crp) / 2 ) else (it.mark * it.crp)
-//                crp += if (it.isHalfWeighted) (it.crp / 2 ) else it.crp
-//            }
-//            avg = if (sum > 0) sum / crp else 0
-//        }
-//        return avg
         recordsStat.let { it ->
             it.forEach {
                 if (it.mark != 0) {

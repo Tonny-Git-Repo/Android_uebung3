@@ -132,7 +132,6 @@ class RecordFormActivity : AppCompatActivity() {
                 //Save a new created record
                 lifecycleScope.launch(Dispatchers.IO) {
                     recordDAO.persist(it)
-                    // recordViewModel.addRecord(it)
                 }
             } else {
                 //update a record
@@ -147,11 +146,6 @@ class RecordFormActivity : AppCompatActivity() {
 
     private fun getYears(): Array<String> {
         return resources.getStringArray(R.array.years)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        //singleThreadExecuter.shutdown()
     }
 
 }

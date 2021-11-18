@@ -18,4 +18,5 @@
     <string name="email_senden">Senden</string>
     <string name="leistungen_senden">Leistungen als email senden</string>
     <string name="loeschen">Löschen</string>
+    <string name="update">Update</string>
 </resources>
