@@ -18,6 +18,7 @@ import java.util.*
 import java.util.concurrent.Executors
 import kotlin.collections.ArrayList
 import androidx.activity.viewModels
+import androidx.core.net.toUri
 import androidx.lifecycle.*
 import androidx.room.Room
 import kotlinx.coroutines.Dispatchers
@@ -31,7 +32,6 @@ class RecordsActivity : AppCompatActivity(){
     private lateinit var adapter : ArrayAdapter<Record>
     private lateinit var recordDAO: RecordDAO
     private val viewModel: RecordsViewModel by viewModels()
-    private val executer = Executors.newSingleThreadExecutor()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,22 +62,23 @@ class RecordsActivity : AppCompatActivity(){
     override fun onStart() {
         super.onStart()
 
-      //  adapter.clear()
-      //  adapter.addAll(RecordDAO.get(this).findAll())
-
         binding.recordListView.setOnItemClickListener { parent: AdapterView<*>, view, position, id ->
-            Intent(this, RecordFormActivity::class.java).also {
-                //val idRecordToUpdate = records.get(position).id;
-                val idRecordToUpdate = records[position].id;
-                //Log.d("RecordInfo", records.get(position).id.toString())
-                it.putExtra("idRecordToUpdate", idRecordToUpdate)
-                startActivity(it)
+            when(intent.action) {
+                Intent.ACTION_PICK -> Intent().let {
+                    it.data = "vnd.android.cursor.dir/vnd.thm.ap.record".toUri()
+                    setResult(0, it)
+                    finish()
+                }
+                else -> Intent(this, RecordFormActivity::class.java).also {
+                    val idRecordToUpdate = records[position].id;
+                    it.putExtra("idRecordToUpdate", idRecordToUpdate)
+                    startActivity(it)
+                }
             }
         }
 
 
         binding.recordListView.choiceMode = ListView.CHOICE_MODE_MULTIPLE_MODAL
-
         binding.recordListView.setMultiChoiceModeListener(object : AbsListView.MultiChoiceModeListener {
 
             val checkedRecordsList = ArrayList<Record>()

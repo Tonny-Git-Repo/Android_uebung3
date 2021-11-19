@@ -7,6 +7,7 @@ import androidx.core.net.toUri
 
 class MainActivity : AppCompatActivity() {
     private val TAG = MainActivity::class.java.name
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
